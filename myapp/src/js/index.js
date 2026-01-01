@@ -26,8 +26,8 @@ function saveBooks() {
 function renderBooks() {
   const container = document.querySelector(".book-container");
   container.innerHTML = "";
-  // For each container
 
+  // For each container
   books.foreach((book) => {
     // let avgRating;
     // if (book.rating.length > 0) {
@@ -61,5 +61,52 @@ function renderBooks() {
     <button class="delete-btn">Delete Book</button>`;
 
     // Add Rating
+
+    card.querySelector(".rate-btn").onclick = () => {
+      const value = Number(card.querySelector("input").value);
+      if (value >= 1 && value <= 5) {
+        book.rating.push(value);
+        saveBooks();
+        renderBooks();
+      }
+    };
+
+    // Add review
+    card.querySelector(".review-btn").onclick = () => {
+      const text = card.querySelector("textarea").value;
+      if (text.trim()) {
+        book.review.push({ username: "User", content: text });
+        saveBooks();
+        renderBooks();
+      }
+    };
+
+    // Delete book
+    card.querySelector(".delete-btn").onclick = () => {
+      books = books.filter((b) => b.id !== book.id);
+      saveBooks();
+      renderBooks();
+    };
+
+    container.appendChild(card);
   });
 }
+
+document.getElementById("addBookBtn").onclick = () => {
+  const title = document.getElementById("title").value;
+  const author = document.getElementById("author").value;
+  const year = document.getElementById("year").value;
+
+  const book = new Book(title, author, year);
+  books.push(book);
+  saveBooks();
+  renderBooks();
+
+  // Make them empty after adding the book
+  document.getElementById("title").value = "";
+  document.getElementById("author").value = "";
+  document.getElementById("year").value = "";
+};
+
+// App initialization
+renderBooks();
