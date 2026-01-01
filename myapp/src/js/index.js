@@ -1,6 +1,6 @@
 "use strict";
 class Book {
-  constructors(title, author, year) {
+  constructor(title, author, year) {
     this.id = parseInt(Math.random() * 10000);
     this.title = title;
     this.author = author;
@@ -28,7 +28,9 @@ function renderBooks() {
   container.innerHTML = "";
 
   // For each container
-  books.foreach((book) => {
+  books.forEach((book) => {
+    book.rating = book.rating || [];
+    book.review = book.review || [];
     // let avgRating;
     // if (book.rating.length > 0) {
     //   const sum = book.rating.reduce((a, b) => a + b, 0);
@@ -40,7 +42,6 @@ function renderBooks() {
       book.rating.length > 0
         ? book.rating.reduce((a, b) => a + b, 0) / book.rating.length
         : "No Rating";
-    //
 
     const card = document.createElement("div");
     card.className = "book-card";
